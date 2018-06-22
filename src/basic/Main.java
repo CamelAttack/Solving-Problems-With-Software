@@ -11,8 +11,10 @@ public class Main {
 		// runPackageTest();
 		// printWhiteSpace();
 
-		// Perimeter Assignment
-		runPerimeterCalculator("src/basic/perimeter_test/example1.txt");
+		 //Perimeter Assignment
+		 //runPerimeterCalculator("src/basic/perimeter_quiz/datatest4.txt");
+
+		runPerimeterQuizAssignment();
 	}
 
 	public static void runPackageTest() {
@@ -23,6 +25,12 @@ public class Main {
 	public static void runPerimeterCalculator(String fileName) {
 		PerimeterRunner pr = new PerimeterRunner();
 		pr.testPerimeter(fileName);
+	}
+
+	public static void runPerimeterQuizAssignment() {
+		PerimeterAssignmentRunner par = new PerimeterAssignmentRunner();
+		par.testPerimeterMultipleFiles();
+		par.testFileWithLargestPerimeter();
 	}
 
 	public static void printWhiteSpace() {
