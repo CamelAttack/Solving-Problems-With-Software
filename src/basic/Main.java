@@ -12,7 +12,7 @@ public class Main {
 		// printWhiteSpace();
 
 		// Perimeter Assignment
-		runPerimeterCalculator("src/basic/example2.txt");
+		runPerimeterCalculator("src/basic/perimeter_test/example1.txt");
 	}
 
 	public static void runPackageTest() {

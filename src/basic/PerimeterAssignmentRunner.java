@@ -1,8 +1,9 @@
 package basic;
 
 import edu.duke.*;
+import java.io.File;
 
-public class PerimeterRunner {
+public class PerimeterAssignmentRunner {
 	public double getPerimeter(Shape s) {
 		// Start with totalPerim = 0
 		double totalPerim = 0.0;
@@ -70,19 +71,52 @@ public class PerimeterRunner {
 		return largestX;
 	}
 
-	public void testPerimeter(String fileName) {
-		FileResource fr = new FileResource(fileName);
+	public double getLargestPerimeterMultipleFiles() {
+		// Put code here
+		return 0.0;
+	}
+
+	public String getFileWithLargestPerimeter() {
+		// Put code here
+		File temp = null; // replace this code
+		return temp.getName();
+	}
+
+	public void testPerimeter() {
+		FileResource fr = new FileResource();
 		Shape s = new Shape(fr);
 		double length = getPerimeter(s);
-		int numPoints = getNumPoints(s);
-		double averageSideLength = getAverageSideLength(s);
-		double largestSide = getLargestSide(s);
-		double largestX = getLargestX(s);
-		System.out.println("The perimeter is = " + length);
-		System.out.println("Number of points is = " + numPoints);
-		System.out.println("The average length of one side is = " + averageSideLength);
-		System.out.println("The largetst side has a length = " + largestSide);
-		System.out.println("The largest x value among points from this shape is = " + largestX);
+		System.out.println("perimeter = " + length);
+	}
+
+	public void testPerimeterMultipleFiles() {
+		// Put code here
+	}
+
+	public void testFileWithLargestPerimeter() {
+		// Put code here
+	}
+
+	// This method creates a triangle that you can use to test your other methods
+	public void triangle() {
+		Shape triangle = new Shape();
+		triangle.addPoint(new Point(0, 0));
+		triangle.addPoint(new Point(6, 0));
+		triangle.addPoint(new Point(3, 6));
+		for (Point p : triangle.getPoints()) {
+			System.out.println(p);
+		}
+		double peri = getPerimeter(triangle);
+		System.out.println("perimeter = " + peri);
+	}
+
+	// This method prints names of all files in a chosen folder that you can use to
+	// test your other methods
+	public void printFileNames() {
+		DirectoryResource dr = new DirectoryResource();
+		for (File f : dr.selectedFiles()) {
+			System.out.println(f);
+		}
 	}
 
 }
