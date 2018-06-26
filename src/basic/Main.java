@@ -10,11 +10,11 @@ public class Main {
 		// Lesson Basics with their Package
 		// runPackageTest();
 		// printWhiteSpace();
-
-		 //Perimeter Assignment
-		 //runPerimeterCalculator("src/basic/perimeter_quiz/datatest4.txt");
-
-		runPerimeterQuizAssignment();
+		// Perimeter Assignment
+		// runPerimeterCalculator("src/basic/perimeter_quiz/datatest4.txt");
+		// runPerimeterQuizAssignment();
+		// runSimpleGeneFinder();
+		runGeneFinderWithFiles();
 	}
 
 	public static void runPackageTest() {
@@ -33,7 +33,22 @@ public class Main {
 		par.testFileWithLargestPerimeter();
 	}
 
+	public static void runSimpleGeneFinder() {
+		SimpleGeneFinder geneFind = new SimpleGeneFinder();
+		geneFind.testing();
+	}
+
+	public static void runGeneFinderWithFiles() {
+		SimpleGeneFinder geneFind = new SimpleGeneFinder();
+		//geneFind.testWithFiles();
+		//printWhiteSpace();
+		if (geneFind.twoOccurences("by", "A story by Abby Long")) {
+			System.out.println("Two occurences of the phrase string were found in the subject string!");
+		}
+	}
+
 	public static void printWhiteSpace() {
 		System.out.println(" ");
 	}
+
 }

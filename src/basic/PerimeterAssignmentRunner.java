@@ -6,31 +6,6 @@ import java.util.Iterator;
 
 public class PerimeterAssignmentRunner {
 
-	private String fileDatasetArray[];
-	private String fileExampleArray[];
-	private String fileSource = "src/basic/perimeter_quiz/";
-	private String fileExampleNames[] = {};
-
-	public PerimeterAssignmentRunner() {
-		//buildExampleStringArray();
-	}
-
-	private void buildExampleStringArray() {
-		fileExampleArray = new String[4];
-		for (int i = 0; i < 4; i++) {
-			StringBuilder sb = new StringBuilder(fileSource);
-			sb.append("example");
-			sb.append(i + 1);
-			sb.append(".txt");
-			fileExampleArray[i] = sb.toString();
-			System.out.println("File Example String " + i + " = " + fileExampleArray[i]);
-		}
-	}
-
-	private void buildDatasetStringArray() {
-
-	}
-
 	public double getPerimeter(Shape s) {
 		// Start with totalPerim = 0
 		double totalPerim = 0.0;
