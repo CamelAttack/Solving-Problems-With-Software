@@ -1,5 +1,7 @@
 package basic;
 
+import edu.duke.*;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -13,8 +15,9 @@ public class Main {
 		// Perimeter Assignment
 		// runPerimeterCalculator("src/basic/perimeter_quiz/datatest4.txt");
 		// runPerimeterQuizAssignment();
-		// runSimpleGeneFinder();
-		runGeneFinderWithFiles();
+		runSimpleGeneFinder();
+		// runGeneFinderWithFiles();
+		// urlFinder();
 	}
 
 	public static void runPackageTest() {
@@ -36,14 +39,31 @@ public class Main {
 	public static void runSimpleGeneFinder() {
 		SimpleGeneFinder geneFind = new SimpleGeneFinder();
 		geneFind.testing();
+		// System.out.println(geneFind.findProteinWithCodones("AAATGCCCTAACTAGATTAAGAAACC",
+		// "ATG", "TAA"));
+
 	}
 
 	public static void runGeneFinderWithFiles() {
 		SimpleGeneFinder geneFind = new SimpleGeneFinder();
-		//geneFind.testWithFiles();
-		//printWhiteSpace();
+		// geneFind.testWithFiles();
+		// printWhiteSpace();
 		if (geneFind.twoOccurences("by", "A story by Abby Long")) {
 			System.out.println("Two occurences of the phrase string were found in the subject string!");
+		}
+	}
+
+	public static void urlFinder() {
+		String urlString = "http://www.dukelearntoprogram.com/course2/data/manylinks.html";
+		URLResource url = new URLResource(urlString);
+		for (String line : url.lines()) {
+			String formattedLine = line.toLowerCase();
+			int linkIndex = formattedLine.indexOf("<a href=");
+			if (linkIndex > -1 && formattedLine.indexOf("youtube.com") > -1) {
+				int startIndex = linkIndex + 9;
+				int stopIndex = formattedLine.indexOf("\"", startIndex);
+				System.out.println(line.substring(startIndex, stopIndex));
+			}
 		}
 	}
 

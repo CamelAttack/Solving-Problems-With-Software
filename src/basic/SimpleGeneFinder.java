@@ -13,39 +13,46 @@ import java.io.*;
 public class SimpleGeneFinder {
 
 	public String findSimpleProtein(String dna) {
-		String formattedDNA = dna.toLowerCase();
-
-		int start = formattedDNA.indexOf("atg");
-		if (start == -1) {
-			return "NO START CODONE FOUND!";
-		}
-		int stop = formattedDNA.indexOf("tag", start + 3);
-		if (stop == -1) {
-			return "NO STOP CODONE FOUND!";
-		}
-		if ((stop - start) % 3 == 0) {
-			return dna.substring(start, stop + 3);
-		} else {
-			return "INVALID PROTEIN GROUP!";
-		}
+		return findProteinWithCodones(dna, "ATG", "TAG");
 	}
 
 	public String findProteinWithCodones(String dna, String startCodone, String stopCodone) {
-		String result = "";
+
 		String formattedDNA = dna.toLowerCase();
+		// Looking for the Start codone
 		int startIndex = formattedDNA.indexOf(startCodone.toLowerCase());
 		if (startIndex == -1) {
 			return "NO START CODONE FOUND!";
 		}
-		int stopIndex = formattedDNA.indexOf(stopCodone.toLowerCase(), startIndex + 3);
+		// Looking for the stop codone
+		boolean searchingForValidProtein = true;
+		int stopIndex = startIndex + 3;
+
+		while (searchingForValidProtein) {
+			stopIndex = formattedDNA.indexOf(stopCodone.toLowerCase(), stopIndex);
+			// System.out.println("STOP INDEX: " + stopIndex);
+			if (stopIndex == -1) {
+				searchingForValidProtein = false;
+			} else if (validateProtein(startIndex, stopIndex + 3)) {
+				searchingForValidProtein = false;
+			} else {
+				stopIndex++;
+			}
+		}
+
+		// If there was no valid stop codone found
 		if (stopIndex == -1) {
+			// Return accurate failure message
 			return "NO STOP CODONE FOUND!";
 		}
-		int proteinCheck = (stopIndex - startIndex) % 3;
-		if (proteinCheck != 0) {
-			return "INVALID PROTEIN LENGTH!";
-		}
 		return dna.substring(startIndex, stopIndex + 3);
+	}
+
+	public boolean validateProtein(int startIndex, int stopIndex) {
+		if ((stopIndex - startIndex) % 3 == 0) {
+			return true;
+		}
+		return false;
 	}
 
 	public boolean twoOccurences(String phraseString, String subjectString) {
@@ -72,6 +79,7 @@ public class SimpleGeneFinder {
 		String dnaStrings[] = { "cccatggggtttaaataataataggagagagagagagagttt", "atggggtttaaataataatag", "atgcctag", "",
 				"ATGCCCTAG" };
 		for (String dna : dnaStrings) {
+			// System.out.println("TESTING STRAND: " + dna);
 			String result = findSimpleProtein(dna);
 			System.out.println("Strand " + dna + " has protein " + result);
 		}
@@ -82,6 +90,8 @@ public class SimpleGeneFinder {
 		System.out.println("Strand " + dnaStrings[1] + " has protein " + result);
 		result = findProteinWithCodones(dnaStrings[4], "CCC", "TAG");
 		System.out.println("Strand " + dnaStrings[4] + " has protein " + result);
+		result = findProteinWithCodones(dnaStrings[0], "ccc", "rbg");
+		System.out.println("Strand " + dnaStrings[0] + " has protein " + result);
 	}
 
 }
