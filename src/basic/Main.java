@@ -3,7 +3,7 @@ package basic;
 import edu.duke.*;
 
 public class Main {
-	//I'm just testing some GIT Stuff using this comment
+	// I'm just testing some GIT Stuff using this comment
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Yo what up chicken. - Allegra Frank.");
@@ -38,10 +38,10 @@ public class Main {
 
 	public static void runSimpleGeneFinder() {
 		SimpleGeneFinder geneFind = new SimpleGeneFinder();
-		geneFind.testing();
+		// geneFind.testing();
 		// System.out.println(geneFind.findProteinWithCodones("AAATGCCCTAACTAGATTAAGAAACC",
 		// "ATG", "TAA"));
-
+		geneFind.testSearchingMultipleGenes();
 	}
 
 	public static void runGeneFinderWithFiles() {
