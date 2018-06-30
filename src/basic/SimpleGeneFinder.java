@@ -38,15 +38,15 @@ public class SimpleGeneFinder {
 		return dna.substring(startIndex, stopIndex + 3);
 	}
 
-	public void printEachGeneFromDNAWithCodones(String dna, String startCodone, String[] stopCodones) {
+	public int printMultipleGenes(String dna, String startCodone, String[] stopCodones) {
 		// Format the dna to all lower case to avoid case sensitive errors
 		// Only use formattedDNA throughout the method until printing or return a
 		// substring
 		String formattedDNA = dna.toLowerCase();
-		// Create startIndex at the beginning of the DNA String
+		int geneCount = 0;
+		// Create startIndex at -1 so we dont skip; the beginning of the dnaString
 		int startIndex = 0;
-		System.out.println("Looking for Genes from the following DNA Strand:");
-		System.out.println(dna);
+		System.out.println("Looking for Genes from the following DNA Strand: " + dna);
 		while (startIndex != -1 && startIndex < dna.length()) {
 			// Looking for the Start codone
 			startIndex = formattedDNA.indexOf(startCodone.toLowerCase(), startIndex);
@@ -60,9 +60,17 @@ public class SimpleGeneFinder {
 					System.out.println("GENE FOUND: " + dna.substring(startIndex, stopIndex + 3));
 					// Set the new startIndex after the last gene found
 					startIndex = stopIndex + 3;
+					// Increment the gene count.
+					geneCount++;
+				} else {
+					// Set the startIndex to -1 there are no more valid genes
+					startIndex = -1;
 				}
 			}
+
 		}
+
+		return geneCount;
 	}
 
 	private int findFirstValidCodone(int startIndex, String dna, String[] codones) {
@@ -105,26 +113,6 @@ public class SimpleGeneFinder {
 		return false;
 	}
 
-	public boolean twoOccurences(String phraseString, String subjectString) {
-		String split[] = subjectString.split(phraseString);
-		if (split.length >= 2) {
-			return true;
-		}
-		return false;
-	}
-
-	public void testWithFiles() {
-		int count = 0;
-		DirectoryResource dr = new DirectoryResource();
-		for (File file : dr.selectedFiles()) {
-			FileResource fr = new FileResource(file);
-			String result = findSimpleProtein(fr.asString());
-			count++;
-			System.out.println("RESULTS FOR FILE " + count);
-			System.out.println(result);
-		}
-	}
-
 	public void testing() {
 		String dnaStrings[] = { "cccatggggtttaaataataataggagagagagagagagttt", "atggggtttaaataataatag", "atgcctag", "",
 				"ATGCCCTAG" };
@@ -150,12 +138,18 @@ public class SimpleGeneFinder {
 		String dnaStrings[] = { "cccatggggtttaaataataataggagagagagagagagttt", "atggggtttaaataataatag", "atgcctag", "",
 				"ATGCCCTAG" };
 		String stopCodones[] = { "ttt" };
-		printEachGeneFromDNAWithCodones(dnaStrings[0], "ccc", stopCodones);
-		printEachGeneFromDNAWithCodones(dnaStrings[1], "rbg", stopCodones);
+		printMultipleGenes(dnaStrings[0], "ccc", stopCodones);
+		printMultipleGenes(dnaStrings[1], "rbg", stopCodones);
 		stopCodones[0] = "TAG";
-		printEachGeneFromDNAWithCodones(dnaStrings[4], "CCC", stopCodones);
+		printMultipleGenes(dnaStrings[4], "CCC", stopCodones);
 		stopCodones[0] = "rbg";
-		printEachGeneFromDNAWithCodones(dnaStrings[0], "ccc", stopCodones);
+		printMultipleGenes(dnaStrings[0], "ccc", stopCodones);
 	}
 
+	public void testCountingGenes() {
+		String stopCodones[] = { "TAA", "TAG", "TGA" };
+		String dnaStrand = "AATGCTAACTAGCTGACTAAT";
+		int geneCount = printMultipleGenes(dnaStrand, "ATG", stopCodones);
+		System.out.println("The total number of genes found was: " + geneCount);
+	}
 }
