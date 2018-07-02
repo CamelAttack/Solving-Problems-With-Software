@@ -1,5 +1,6 @@
 package basic;
 
+import edu.duke.FileResource;
 import edu.duke.URLResource;
 
 public class BasicStringSearch {
@@ -37,16 +38,23 @@ public class BasicStringSearch {
 			if (index == -1 || index >= input.length() - 3) {
 				break;
 			}
-			//System.out.println("INDEX Found: " + index);
+			// System.out.println("INDEX Found: " + index);
 			String found = input.substring(index + 1, index + 4);
 			System.out.println(found);
 			index = input.indexOf("abc", index + 3);
-			//System.out.println("INDEX Post Update: " + index);
+			// System.out.println("INDEX Post Update: " + index);
 		}
 	}
 
 	public void testABC() {
 		findAbc("abcabcabcabca");
+	}
+
+	public void testDNAForCodons() {
+		FileResource fr = new FileResource("src/basic/dna_strings/GRch38dnapart.fa");
+		String dnaStrand = fr.asString();
+		int count = howMany(dnaStrand, "CTG");
+		System.out.println("CTG appears: " + count + " times in the dna strand.");
 	}
 
 	public void testHowMany() {

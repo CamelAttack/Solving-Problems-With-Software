@@ -8,9 +8,10 @@ public class Main {
 		// Just for fun.
 		System.out.println("Yo what up chicken. - Allegra Frank.");
 		printWhiteSpace();
-		runBasicStringSearch();
-		//printWhiteSpace();
-		//runSimpleGeneFinder();
+		// runBasicStringSearch();
+		// printWhiteSpace();
+		// runSimpleGeneFinder();
+		runGeneProcessor();
 	}
 
 	public static void runPerimeterCalculator(String fileName) {
@@ -29,17 +30,24 @@ public class Main {
 		// geneFind.testing();
 		// System.out.println(geneFind.findProteinWithCodones("AAATGCCCTAACTAGATTAAGAAACC",
 		// "ATG", "TAA"));
-		geneFind.testSearchingMultipleGenes();
+		geneFind.testGeneStorage();
 		printWhiteSpace();
-		geneFind.testCountingGenes();
+		geneFind.testCGCount();
 		printWhiteSpace();
 	}
 
 	public static void runBasicStringSearch() {
 		BasicStringSearch stringSearch = new BasicStringSearch();
-		stringSearch.testHowMany();
+		// stringSearch.testHowMany();
+		// stringSearch.urlFinder();
+		stringSearch.testDNAForCodons();
 		printWhiteSpace();
-		stringSearch.testABC();
+		// stringSearch.testABC();
+	}
+
+	public static void runGeneProcessor() {
+		SimpleGeneFinder geneFind = new SimpleGeneFinder();
+		geneFind.testProcessGenes();
 	}
 
 	public static void printWhiteSpace() {

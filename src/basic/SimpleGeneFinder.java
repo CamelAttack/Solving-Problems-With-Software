@@ -9,13 +9,11 @@ package basic;
 
 import edu.duke.*;
 import java.io.*;
+import java.util.ArrayList;
 
 public class SimpleGeneFinder {
 
-	public String findSimpleProtein(String dna) {
-		String stopCodones[] = { "TAG" };
-		return findProteinWithCodones(dna, "ATG", stopCodones);
-	}
+	private String[] standardStopCodones = { "TAA", "TGA", "TAG" };
 
 	public String findProteinWithCodones(String dna, String startCodone, String[] stopCodones) {
 		// Format the dna to all lower case to avoid case sensitive errors
@@ -38,15 +36,16 @@ public class SimpleGeneFinder {
 		return dna.substring(startIndex, stopIndex + 3);
 	}
 
-	public int printMultipleGenes(String dna, String startCodone, String[] stopCodones) {
+	public StorageResource buildGeneResource(String dna, String startCodone, String[] stopCodones) {
 		// Format the dna to all lower case to avoid case sensitive errors
 		// Only use formattedDNA throughout the method until printing or return a
 		// substring
 		String formattedDNA = dna.toLowerCase();
-		int geneCount = 0;
+		StorageResource geneStorage = new StorageResource();
 		// Create startIndex at -1 so we dont skip; the beginning of the dnaString
 		int startIndex = 0;
-		System.out.println("Looking for Genes from the following DNA Strand: " + dna);
+		// System.out.println("Looking for Genes from the following DNA Strand: " +
+		// dna);
 		while (startIndex != -1 && startIndex < dna.length()) {
 			// Looking for the Start codone
 			startIndex = formattedDNA.indexOf(startCodone.toLowerCase(), startIndex);
@@ -56,21 +55,44 @@ public class SimpleGeneFinder {
 
 				// If a valid stopCodone was found
 				if (stopIndex != -1) {
-					// Print the gene
-					System.out.println("GENE FOUND: " + dna.substring(startIndex, stopIndex + 3));
+					// Add the gene to the gene storage.
+					geneStorage.add(dna.substring(startIndex, stopIndex + 3));
 					// Set the new startIndex after the last gene found
 					startIndex = stopIndex + 3;
-					// Increment the gene count.
-					geneCount++;
 				} else {
-					// Set the startIndex to -1 there are no more valid genes
+					// Set the startIndex to -1 because there are no more valid genes.
+					// Also to prevent an infinite loop.
 					startIndex = -1;
 				}
 			}
 
 		}
 
-		return geneCount;
+		return geneStorage;
+	}
+
+	public double findCGRatio(String dna) {
+		double ratio = 0;
+		double letterCount = 0.00;
+		double stringLength = (double) dna.length();
+		String formattedDNA = dna.toLowerCase();
+		letterCount += findLetterCount(formattedDNA, 'c');
+		letterCount += findLetterCount(formattedDNA, 'g');
+		ratio = letterCount / stringLength;
+		return ratio;
+	}
+
+	private int findLetterCount(String someString, char someCharacter) {
+		int count = 0;
+		int currIndex = 0;
+		while (currIndex != -1) {
+			currIndex = someString.indexOf(someCharacter, currIndex);
+			if (currIndex != -1) {
+				count++;
+				currIndex++;
+			}
+		}
+		return count;
 	}
 
 	private int findFirstValidCodone(int startIndex, String dna, String[] codones) {
@@ -113,43 +135,62 @@ public class SimpleGeneFinder {
 		return false;
 	}
 
-	public void testing() {
-		String dnaStrings[] = { "cccatggggtttaaataataataggagagagagagagagttt", "atggggtttaaataataatag", "atgcctag", "",
-				"ATGCCCTAG" };
-		for (String dna : dnaStrings) {
-			// System.out.println("TESTING STRAND: " + dna);
-			String result = findSimpleProtein(dna);
-			System.out.println("Strand " + dna + " has protein " + result);
-		}
-		String stopCodones[] = { "ttt" };
-		String result = findProteinWithCodones(dnaStrings[0], "ccc", stopCodones);
-		System.out.println("Strand " + dnaStrings[0] + " has protein " + result);
-		result = findProteinWithCodones(dnaStrings[1], "rbg", stopCodones);
-		System.out.println("Strand " + dnaStrings[1] + " has protein " + result);
-		stopCodones[0] = "TAG";
-		result = findProteinWithCodones(dnaStrings[4], "CCC", stopCodones);
-		System.out.println("Strand " + dnaStrings[4] + " has protein " + result);
-		stopCodones[0] = "rbg";
-		result = findProteinWithCodones(dnaStrings[0], "ccc", stopCodones);
-		System.out.println("Strand " + dnaStrings[0] + " has protein " + result);
+	public void testCGCount() {
+		String dna = "ATGCCATAG";
+		double ratio = findCGRatio(dna);
+		System.out.println("The C and G ratio for the dna strand: " + dna + " is the value: " + ratio);
 	}
 
-	public void testSearchingMultipleGenes() {
-		String dnaStrings[] = { "cccatggggtttaaataataataggagagagagagagagttt", "atggggtttaaataataatag", "atgcctag", "",
-				"ATGCCCTAG" };
-		String stopCodones[] = { "ttt" };
-		printMultipleGenes(dnaStrings[0], "ccc", stopCodones);
-		printMultipleGenes(dnaStrings[1], "rbg", stopCodones);
-		stopCodones[0] = "TAG";
-		printMultipleGenes(dnaStrings[4], "CCC", stopCodones);
-		stopCodones[0] = "rbg";
-		printMultipleGenes(dnaStrings[0], "ccc", stopCodones);
-	}
-
-	public void testCountingGenes() {
-		String stopCodones[] = { "TAA", "TAG", "TGA" };
+	public void testGeneStorage() {
 		String dnaStrand = "AATGCTAACTAGCTGACTAAT";
-		int geneCount = printMultipleGenes(dnaStrand, "ATG", stopCodones);
-		System.out.println("The total number of genes found was: " + geneCount);
+		StorageResource geneStorage = buildGeneResource(dnaStrand, "ATG", standardStopCodones);
+		System.out.println("DNA Strang: " + dnaStrand);
+		System.out.println("The following GENES were found in the DNA Strand.");
+		for (String s : geneStorage.data()) {
+			System.out.println("GENE: " + s);
+		}
+	}
+
+	public void testProcessGenes() {
+		FileResource fr = new FileResource("src/basic/dna_strings/GRch38dnapart.fa");
+		// FileResource fr = new FileResource("src/basic/brca1line.fa");
+		String dnaStrand = fr.asString();
+		StorageResource geneStorage = buildGeneResource(dnaStrand, "ATG", standardStopCodones);
+		processGenes(geneStorage);
+	}
+
+	public void processGenes(StorageResource geneStorage) {
+		ArrayList<String> longerGenes = new ArrayList<String>();
+		ArrayList<String> validRatioGenes = new ArrayList<String>();
+		int greatestGeneLength = 0;
+		for (String s : geneStorage.data()) {
+			if (s.length() > 60) {
+				longerGenes.add(s);
+			}
+			if (findCGRatio(s) > 0.35) {
+				validRatioGenes.add(s);
+			}
+			if (s.length() > greatestGeneLength) {
+				greatestGeneLength = s.length();
+			}
+		}
+		printLine("There are: " + geneStorage.size() + " GENES in this storage resource.");
+		printLine("There are: " + longerGenes.size() + " Genes longer than 60 characters:");
+		printGenesfromArray(longerGenes, "GENE: ");
+		printLine("-----------------------------------------------------------------------------");
+		printLine("There are: " + validRatioGenes.size() + " Genes with a C and G ratio greater than 0.35:");
+		printGenesfromArray(validRatioGenes, "GENE: ");
+		printLine("-----------------------------------------------------------------------------");
+		printLine("The length of the longest gene found is : " + greatestGeneLength);
+	}
+
+	private void printLine(String someMessage) {
+		System.out.println(someMessage);
+	}
+
+	private void printGenesfromArray(ArrayList<String> geneList, String preMessage) {
+		for (String s : geneList) {
+			System.out.println(preMessage + s);
+		}
 	}
 }
