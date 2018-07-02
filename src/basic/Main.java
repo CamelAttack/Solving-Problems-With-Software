@@ -8,10 +8,18 @@ public class Main {
 		// Just for fun.
 		System.out.println("Yo what up chicken. - Allegra Frank.");
 		printWhiteSpace();
+		testCSVExports();
 		// runBasicStringSearch();
 		// printWhiteSpace();
 		// runSimpleGeneFinder();
-		runGeneProcessor();
+		// runGeneProcessor();
+	}
+
+	public static void testCSVExports() {
+		WhichCountriesExport exporter = new WhichCountriesExport();
+		exporter.whoExportsCoffee();
+		printWhiteSpace();
+		exporter.readCountryInfo();
 	}
 
 	public static void runPerimeterCalculator(String fileName) {
