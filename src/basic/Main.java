@@ -7,19 +7,27 @@ public class Main {
 	public static void main(String[] args) {
 		// Just for fun.
 		System.out.println("Yo what up chicken. - Allegra Frank.");
-		printWhiteSpace();
-		testCSVExports();
-		// runBasicStringSearch();
 		// printWhiteSpace();
-		// runSimpleGeneFinder();
-		// runGeneProcessor();
+		// testCSVExports();
+		testWeatherDataManager();
+	}
+
+	public static void testWeatherDataManager() {
+		WeatherDataManager manager = new WeatherDataManager();
+		manager.testColdestHour();
+		printWhiteSpace();
+		manager.testColdestTemperatureManyFiles();
 	}
 
 	public static void testCSVExports() {
 		WhichCountriesExport exporter = new WhichCountriesExport();
-		exporter.whoExportsCoffee();
+		exporter.testTwoExports();
 		printWhiteSpace();
-		exporter.readCountryInfo();
+		exporter.testNumberExporters("sugar");
+		printWhiteSpace();
+		exporter.testCountryInfo("Nauru");
+		printWhiteSpace();
+		exporter.testBigExporters("$999,999,999,999");
 	}
 
 	public static void runPerimeterCalculator(String fileName) {
